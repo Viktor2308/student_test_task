@@ -28,3 +28,4 @@ Java, Spring Framework, PostgreSQL, swagger
 3. валидация
 
 
+http://localhost:8090/webjars/swagger-ui/index.html
