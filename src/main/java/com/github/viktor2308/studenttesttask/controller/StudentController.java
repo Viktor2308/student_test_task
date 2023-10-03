@@ -6,6 +6,7 @@ import com.github.viktor2308.studenttesttask.mapper.StudentMapper;
 import com.github.viktor2308.studenttesttask.service.StudentService;
 import com.github.viktor2308.studenttesttask.util.LoggingUtils;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -35,7 +36,7 @@ public class StudentController {
     @Operation(summary = "Create new student")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Successful Operation"),
-            @ApiResponse(responseCode = "400", description = "Error", content = @Content)})
+            @ApiResponse(responseCode = "400", description = "Error")})
     @PostMapping
     public Mono<ResponseEntity<Void>> createStudent(@RequestBody @Valid StudentRequest student) {
         return Mono.empty()
@@ -61,7 +62,7 @@ public class StudentController {
     @Operation(summary = "Get all student", responses = {
             @ApiResponse(responseCode = "200", description = "Successful Operation",
                     content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Student.class))),
+                            array = @ArraySchema(schema = @Schema(implementation = Student.class)))),
             @ApiResponse(responseCode = "404", description = "Not Found")})
     @GetMapping("/all")
     public Flux<Student> getAllStudent() {
@@ -76,11 +77,24 @@ public class StudentController {
             @ApiResponse(responseCode = "404", description = "Not Found")})
     @PutMapping("/{id}")
     public Mono<ResponseEntity<Void>> updateStudent(@PathVariable("id") UUID id,
-                                                  @RequestBody Student student) {
+                                                    @RequestBody Student student) {
         return Mono.empty()
                 .doOnEach(LoggingUtils.logOnComplete(x -> log.warn("Before updating student")))
                 .then(studentService.update(id, student))
                 .doOnEach(LoggingUtils.logOnComplete(x -> log.warn("Student updated")))
                 .map(request -> ResponseEntity.status(HttpStatus.OK).build());
     }
+
+    @Operation(summary = "Delete student", responses = {
+            @ApiResponse(responseCode = "200", description = "Successful Operation"),
+            @ApiResponse(responseCode = "404", description = "Not Found")})
+    @DeleteMapping("/{id}")
+    public Mono<ResponseEntity<Void>> deleteStudent(@PathVariable("id") UUID id) {
+        return Mono.empty()
+                .doOnEach(LoggingUtils.logOnComplete(x -> log.warn("Before deleting student")))
+                .then(studentService.deleteStudentById(id))
+                .doOnEach(LoggingUtils.logOnComplete(x -> log.warn("Student deleted")))
+                .then(Mono.fromCallable(() -> ResponseEntity.status(HttpStatus.OK).build()));
+    }
+
 }

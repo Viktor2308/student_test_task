@@ -14,4 +14,6 @@ public interface StudentService {
     Flux<Student> findAll();
 
     Mono<Student> update(UUID id, Student student);
+
+    Mono<Void> deleteStudentById(UUID id);
 }

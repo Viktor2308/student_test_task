@@ -48,4 +48,16 @@ public class StudentServiceImpl implements StudentService {
                         }
                 );
     }
+
+    @Transactional
+    @Override
+    public Mono<Void> deleteStudentById(UUID id) {
+        return studentRepository.findById(id).flatMap( student -> {
+                    if (student == null){
+                        return Mono.error(new StudentNotFoundException("Student with id" + id + ", not found"));
+                    }
+                    return studentRepository.deleteById(id);
+                }
+        );
+    }
 }
