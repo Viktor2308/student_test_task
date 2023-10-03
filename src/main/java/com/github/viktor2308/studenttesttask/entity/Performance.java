@@ -1,6 +1,7 @@
 package com.github.viktor2308.studenttesttask.entity;
 
 import lombok.*;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
 
 @Table("performance")
@@ -10,7 +11,7 @@ import org.springframework.data.relational.core.mapping.Table;
 @AllArgsConstructor
 @Builder
 public class Performance {
-
+    @Id
     private Long performanceId;
     private String text;
 }

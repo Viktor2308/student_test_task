@@ -8,5 +8,6 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface StudentMapper {
     @Mapping(target ="studentId", ignore = true)
+    @Mapping(target ="performance", ignore = true)
     Student toStudent(StudentRequest studentRequest);
 }
