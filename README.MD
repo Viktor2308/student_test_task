@@ -13,7 +13,9 @@
 
 ### Запуск:
 git clone https://github.com/Viktor2308/student_test_task.git
+
 gradle build
+
 docker compose -f docker-compose.yml up
 
 Сервис запускается на порту: 8090
