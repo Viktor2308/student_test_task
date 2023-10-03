@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  student-test-task:
+    container_name: StudentTestTask
+    depends_on:
+      - postgres
+    ports:
+      - "8090:8090"
+    environment:
+          - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/jwt
+          - spring_r2dbc_url=r2dbc:postgresql://postgres_r2dbc:5432/student_test_task
+          - spring_flyway_url=jdbc:postgresql://postgres_r2dbc:5432/student_test_task
+    build:
+      context: .
+    restart: unless-stopped
+
+  postgres:
+    container_name: postgres_r2dbc
+    image: 'postgres:13.1-alpine'
+    ports:
+      - "5432:5432"
+    hostname: postgres_r2dbc
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: student_test_task
+    restart: unless-stopped
