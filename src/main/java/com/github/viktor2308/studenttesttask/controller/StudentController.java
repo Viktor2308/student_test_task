@@ -41,7 +41,7 @@ public class StudentController {
     @Operation(summary = "Create new student")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Successful Operation"),
-            @ApiResponse(responseCode = "400", description = "Error")})
+            @ApiResponse(responseCode = "400", description = "Error: Bad Request")})
     @PostMapping
     public Mono<ResponseEntity<Void>> createStudent(@RequestBody @Valid NewStudentRequest student) {
         return Mono.empty()
@@ -75,6 +75,7 @@ public class StudentController {
         return Flux.empty()
                 .doOnEach(LoggingUtils.logOnComplete(x -> log.warn("Before all student obtained")))
                 .thenMany(studentService.findAll())
+                .switchIfEmpty(Mono.error(new StudentNotFoundException("Student is not found")))
                 .doOnEach(LoggingUtils.logOnComplete(x -> log.warn("All student obtained")));
     }
 
