@@ -14,6 +14,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @Builder
 public class Student {
+
     @Id
     private UUID studentId;
     private String fullName;

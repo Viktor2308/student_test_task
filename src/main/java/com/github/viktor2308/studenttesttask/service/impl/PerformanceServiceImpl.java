@@ -1,6 +1,6 @@
 package com.github.viktor2308.studenttesttask.service.impl;
 
-import com.github.viktor2308.studenttesttask.Dto.PerformanceRequest;
+import com.github.viktor2308.studenttesttask.Dto.PerformanceDto;
 import com.github.viktor2308.studenttesttask.entity.Performance;
 import com.github.viktor2308.studenttesttask.exception.PerformanceNotFoundException;
 import com.github.viktor2308.studenttesttask.repository.PerformanceRepository;
@@ -19,16 +19,21 @@ public class PerformanceServiceImpl implements PerformanceService {
 
     @Transactional
     @Override
-    public Mono<Performance> updatePerformance(Long id, PerformanceRequest performanceRequest) {
+    public Mono<Performance> updatePerformance(long id, PerformanceDto performanceDto) {
         return performanceRepository.findById(id)
                 .flatMap(updatedPerformance -> {
                             if (updatedPerformance == null) {
                                 return Mono.error(new PerformanceNotFoundException("Performance with id" + id + ", not found"));
                             }
-                            updatedPerformance.setText(performanceRequest.getText());
+                            updatedPerformance.setText(performanceDto.getText());
                             return performanceRepository.save(updatedPerformance);
                         }
                 );
+    }
+
+    @Override
+    public Mono<Performance> findById(long id) {
+        return performanceRepository.findById(id);
     }
 }
 

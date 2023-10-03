@@ -7,6 +7,7 @@ import java.util.Optional;
 import java.util.function.Consumer;
 
 public class LoggingUtils {
+
     public static <T> Consumer<Signal<T>> logOnComplete(Consumer<T> logStatement) {
         return signal -> {
             if (!signal.isOnComplete()) return;
