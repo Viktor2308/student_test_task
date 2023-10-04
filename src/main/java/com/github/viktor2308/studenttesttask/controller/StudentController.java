@@ -1,7 +1,7 @@
 package com.github.viktor2308.studenttesttask.controller;
 
-import com.github.viktor2308.studenttesttask.Dto.NewStudentRequest;
-import com.github.viktor2308.studenttesttask.Dto.StudentDto;
+import com.github.viktor2308.studenttesttask.dto.NewStudentRequest;
+import com.github.viktor2308.studenttesttask.dto.StudentDto;
 import com.github.viktor2308.studenttesttask.entity.Student;
 import com.github.viktor2308.studenttesttask.exception.StudentNotFoundException;
 import com.github.viktor2308.studenttesttask.mapper.StudentMapper;

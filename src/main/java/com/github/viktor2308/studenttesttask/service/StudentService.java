@@ -1,6 +1,6 @@
 package com.github.viktor2308.studenttesttask.service;
 
-import com.github.viktor2308.studenttesttask.Dto.StudentDto;
+import com.github.viktor2308.studenttesttask.dto.StudentDto;
 import com.github.viktor2308.studenttesttask.entity.Student;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;

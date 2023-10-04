@@ -1,4 +1,4 @@
-package com.github.viktor2308.studenttesttask.Dto;
+package com.github.viktor2308.studenttesttask.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;

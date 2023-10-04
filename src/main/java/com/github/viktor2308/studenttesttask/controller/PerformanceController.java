@@ -1,6 +1,6 @@
 package com.github.viktor2308.studenttesttask.controller;
 
-import com.github.viktor2308.studenttesttask.Dto.PerformanceDto;
+import com.github.viktor2308.studenttesttask.dto.PerformanceDto;
 import com.github.viktor2308.studenttesttask.service.PerformanceService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;

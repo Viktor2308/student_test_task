@@ -1,6 +1,6 @@
 package com.github.viktor2308.studenttesttask.service.impl;
 
-import com.github.viktor2308.studenttesttask.Dto.PerformanceDto;
+import com.github.viktor2308.studenttesttask.dto.PerformanceDto;
 import com.github.viktor2308.studenttesttask.entity.Performance;
 import com.github.viktor2308.studenttesttask.exception.PerformanceNotFoundException;
 import com.github.viktor2308.studenttesttask.repository.PerformanceRepository;
