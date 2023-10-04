@@ -2,7 +2,6 @@ package com.github.viktor2308.studenttesttask.controller;
 
 import com.github.viktor2308.studenttesttask.Dto.PerformanceDto;
 import com.github.viktor2308.studenttesttask.service.PerformanceService;
-import com.github.viktor2308.studenttesttask.util.LoggingUtils;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -22,16 +21,16 @@ import reactor.core.publisher.Mono;
 public class PerformanceController {
 
     private final PerformanceService performanceService;
+
     @Operation(summary = "Update performance", responses = {
             @ApiResponse(responseCode = "200", description = "Successful Operation"),
             @ApiResponse(responseCode = "404", description = "Not Found")})
     @PutMapping("/{id}")
     public Mono<ResponseEntity<Void>> updatePerformance(@PathVariable("id") Long id,
-                                                    @RequestBody @Valid PerformanceDto performanceDto) {
-        return Mono.empty()
-                .doOnEach(LoggingUtils.logOnComplete(x -> log.warn("Before updating performance")))
-                .then(performanceService.updatePerformance(id, performanceDto))
-                .doOnEach(LoggingUtils.logOnComplete(x -> log.warn("Performance updated")))
+                                                        @RequestBody @Valid PerformanceDto performanceDto) {
+        log.debug("Delete student id: {}", id);
+        return performanceService.updatePerformance(id, performanceDto)
+                .doOnEach(x -> log.info("Performance with id: {}, updated", id))
                 .map(request -> ResponseEntity.status(HttpStatus.OK).build());
     }
 }

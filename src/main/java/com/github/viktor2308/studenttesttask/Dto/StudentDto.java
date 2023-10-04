@@ -1,7 +1,7 @@
 package com.github.viktor2308.studenttesttask.Dto;
 
-import com.github.viktor2308.studenttesttask.entity.Performance;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,7 +12,8 @@ public class StudentDto {
 
     @NotBlank(message = "Name not be null")
     private String fullName;
+    @NotNull
     private LocalDate birth;
     @NotBlank (message = "Performance not be null")
-    private Performance performance;
+    private long performanceId;
 }
