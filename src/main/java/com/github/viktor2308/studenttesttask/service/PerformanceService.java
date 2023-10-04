@@ -1,6 +1,6 @@
 package com.github.viktor2308.studenttesttask.service;
 
-import com.github.viktor2308.studenttesttask.Dto.PerformanceDto;
+import com.github.viktor2308.studenttesttask.dto.PerformanceDto;
 import com.github.viktor2308.studenttesttask.entity.Performance;
 import reactor.core.publisher.Mono;
 
