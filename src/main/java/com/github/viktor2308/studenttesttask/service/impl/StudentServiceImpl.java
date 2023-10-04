@@ -1,7 +1,6 @@
 package com.github.viktor2308.studenttesttask.service.impl;
 
 import com.github.viktor2308.studenttesttask.Dto.StudentDto;
-import com.github.viktor2308.studenttesttask.entity.Performance;
 import com.github.viktor2308.studenttesttask.entity.Student;
 import com.github.viktor2308.studenttesttask.exception.PerformanceNotFoundException;
 import com.github.viktor2308.studenttesttask.exception.StudentNotFoundException;
@@ -42,31 +41,27 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public Mono<Student> update(UUID id, StudentDto studentDto) {
         return studentRepository.findById(id)
-                .flatMap(updatedStudent -> {
-                            if (updatedStudent == null) {
-                                return Mono.error(new StudentNotFoundException("Student with id" + id + ", not found"));
-                            }
-                            Performance performance = performanceService.findById(studentDto.getPerformance().getPerformanceId()).block();
-                            if (performance == null) {
-                                return Mono.error(new PerformanceNotFoundException("Student performance not found"));
-                            }
-                            updatedStudent.setBirth(studentDto.getBirth());
-                            updatedStudent.setFullName(studentDto.getFullName());
-                            updatedStudent.setPerformance(performance);
-                            return studentRepository.save(updatedStudent);
-                        }
+                .switchIfEmpty(Mono.error(new StudentNotFoundException("Student with id" + id + ", not found")))
+                .then(performanceService.findById(studentDto.getPerformanceId()))
+                .switchIfEmpty(Mono.error(new PerformanceNotFoundException("Student performance not found")))
+                .flatMap(performance ->
+                        studentRepository.save(
+                                Student.builder()
+                                        .studentId(id)
+                                        .fullName(studentDto.getFullName())
+                                        .birth(studentDto.getBirth())
+                                        .performance(performance)
+                                        .build()
+                        )
                 );
     }
+
 
     @Transactional
     @Override
     public Mono<Void> deleteStudentById(UUID id) {
-        return studentRepository.findById(id).flatMap(student -> {
-                    if (student == null) {
-                        return Mono.error(new StudentNotFoundException("Student with id" + id + ", not found"));
-                    }
-                    return studentRepository.deleteById(id);
-                }
-        );
+        return studentRepository.findById(id)
+                .switchIfEmpty(Mono.error(new StudentNotFoundException("Student with id" + id + ", not found")))
+                .then(studentRepository.deleteById(id));
     }
 }
